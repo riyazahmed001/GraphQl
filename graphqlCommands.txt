@@ -1,0 +1,16 @@
+query{
+    getAllUsers {
+        first_name
+        last_name
+        gender
+    }
+}
+
+mutation{
+    createUser (first_name:"Riyaz Ahmed",last_name:"Rafi",gender:"male"){
+        id
+        first_name
+        last_name
+        gender 
+    }
+}
