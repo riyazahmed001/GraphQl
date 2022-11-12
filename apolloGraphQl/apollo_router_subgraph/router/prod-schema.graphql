@@ -39,7 +39,7 @@ enum link__Purpose {
 
 type Location
   @join__type(graph: LOCATION, key: "id")
-  @join__type(graph: REVIEW, key: "id", resolvable: false)
+  @join__type(graph: REVIEW, key: "id")
 {
   id: ID!
 
@@ -51,6 +51,12 @@ type Location
 
   """The location's main photo as a URL"""
   photo: String! @join__field(graph: LOCATION)
+
+  """The calculated overall rating based on all reviews"""
+  overallRating: Float @join__field(graph: REVIEW)
+
+  """All submitted reviews about this location"""
+  reviewsForLocation: [Review]! @join__field(graph: REVIEW)
 }
 
 input LocationReviewInput

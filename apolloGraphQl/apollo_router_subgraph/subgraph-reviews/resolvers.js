@@ -10,6 +10,14 @@ const resolvers = {
       return {code: 200, success: true, message: 'success', locationReview: newReview};
     }
   },
+  Location: {
+    overallRating: ({id}, _, {dataSources}) => {
+      return dataSources.reviewsAPI.getOverallRatingForLocation(id);
+    },
+    reviewsForLocation: ({id}, _, {dataSources}) => {
+      return dataSources.reviewsAPI.getReviewsForLocation(id);
+     }
+  },
   Review: {
     location: (parent) => {
       return {id: parent.locationId};
