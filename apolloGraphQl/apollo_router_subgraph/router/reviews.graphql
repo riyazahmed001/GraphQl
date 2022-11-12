@@ -1,0 +1,98 @@
+schema
+  @link(url: "https://specs.apollo.dev/link/v1.0")
+{
+  query: Query
+  mutation: Mutation
+}
+
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
+
+directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
+
+directive @key(fields: federation__FieldSet!, resolvable: Boolean = true) repeatable on OBJECT | INTERFACE
+
+directive @federation__requires(fields: federation__FieldSet!) on FIELD_DEFINITION
+
+directive @federation__provides(fields: federation__FieldSet!) on FIELD_DEFINITION
+
+directive @federation__external(reason: String) on OBJECT | FIELD_DEFINITION
+
+directive @federation__tag(name: String!) repeatable on FIELD_DEFINITION | OBJECT | INTERFACE | UNION | ARGUMENT_DEFINITION | SCALAR | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION
+
+directive @federation__extends on OBJECT | INTERFACE
+
+directive @federation__shareable on OBJECT | FIELD_DEFINITION
+
+directive @federation__inaccessible on FIELD_DEFINITION | OBJECT | INTERFACE | UNION | ARGUMENT_DEFINITION | SCALAR | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION
+
+directive @federation__override(from: String!) on FIELD_DEFINITION
+
+directive @federation__composeDirective(name: String) repeatable on SCHEMA
+
+type Query {
+  """The three latest reviews submitted for FlyBy's locations"""
+  latestReviews: [Review!]!
+  _service: _Service!
+}
+
+type Review {
+  id: ID!
+
+  """Written text"""
+  comment: String
+
+  """A number from 1 - 5 with 1 being lowest and 5 being highest"""
+  rating: Int
+}
+
+type Mutation {
+  submitReview(locationReview: LocationReviewInput): SubmitReviewResponse
+}
+
+input LocationReviewInput {
+  """Written text"""
+  comment: String!
+
+  """A number from 1 - 5 with 1 being lowest and 5 being highest"""
+  rating: Int!
+
+  """Location Id"""
+  locationId: String!
+}
+
+type SubmitReviewResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Newly created review"""
+  locationReview: Review
+}
+
+enum link__Purpose {
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+
+  """
+  `EXECUTION` features provide metadata necessary for operation execution.
+  """
+  EXECUTION
+}
+
+scalar link__Import
+
+scalar federation__FieldSet
+
+scalar _Any
+
+type _Service {
+  sdl: String
+}
