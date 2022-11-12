@@ -19,8 +19,8 @@ directive @link(url: String, as: String, for: link__Purpose, import: [link__Impo
 scalar join__FieldSet
 
 enum join__Graph {
-  FILMS @join__graph(name: "films", url: "http://localhost:4001")
-  PEOPLE @join__graph(name: "people", url: "http://localhost:4002")
+  LOCATION @join__graph(name: "location", url: "http://localhost:4001")
+  REVIEW @join__graph(name: "review", url: "http://localhost:4002")
 }
 
 scalar link__Import
@@ -38,22 +38,23 @@ enum link__Purpose {
 }
 
 type Location
-  @join__type(graph: FILMS)
+  @join__type(graph: LOCATION, key: "id")
+  @join__type(graph: REVIEW, key: "id", resolvable: false)
 {
   id: ID!
 
   """The name of the location"""
-  name: String!
+  name: String! @join__field(graph: LOCATION)
 
   """A short description about the location"""
-  description: String!
+  description: String! @join__field(graph: LOCATION)
 
   """The location's main photo as a URL"""
-  photo: String!
+  photo: String! @join__field(graph: LOCATION)
 }
 
 input LocationReviewInput
-  @join__type(graph: PEOPLE)
+  @join__type(graph: REVIEW)
 {
   """Written text"""
   comment: String!
@@ -66,29 +67,29 @@ input LocationReviewInput
 }
 
 type Mutation
-  @join__type(graph: PEOPLE)
+  @join__type(graph: REVIEW)
 {
   submitReview(locationReview: LocationReviewInput): SubmitReviewResponse
 }
 
 type Query
-  @join__type(graph: FILMS)
-  @join__type(graph: PEOPLE)
+  @join__type(graph: LOCATION)
+  @join__type(graph: REVIEW)
 {
   """
   The full list of locations presented by the Interplanetary Space Tourism department
   """
-  locations: [Location!]! @join__field(graph: FILMS)
+  locations: [Location!]! @join__field(graph: LOCATION)
 
   """The details of a specific location"""
-  location(id: ID!): Location @join__field(graph: FILMS)
+  location(id: ID!): Location @join__field(graph: LOCATION)
 
   """The three latest reviews submitted for FlyBy's locations"""
-  latestReviews: [Review!]! @join__field(graph: PEOPLE)
+  latestReviews: [Review!]! @join__field(graph: REVIEW)
 }
 
 type Review
-  @join__type(graph: PEOPLE)
+  @join__type(graph: REVIEW)
 {
   id: ID!
 
@@ -97,10 +98,13 @@ type Review
 
   """A number from 1 - 5 with 1 being lowest and 5 being highest"""
   rating: Int
+
+  """The location the review is about"""
+  location: Location
 }
 
 type SubmitReviewResponse
-  @join__type(graph: PEOPLE)
+  @join__type(graph: REVIEW)
 {
   """Similar to HTTP status code, represents the status of the mutation"""
   code: Int!

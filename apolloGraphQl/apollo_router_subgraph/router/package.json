@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "subgraph:location" : "rover subgraph introspect http://localhost:4001 > location.graphql",
-    "subgraph:reviews" : "rover subgraph introspect http://localhost:4002 > reviews.graphql",
+    "prebuild": "concurrently npm:subgraph:*",
+    "subgraph:location": "rover subgraph introspect http://localhost:4001 > location.graphql",
+    "subgraph:reviews": "rover subgraph introspect http://localhost:4002 > reviews.graphql",
     "supergraph": "rover supergraph compose --elv2-license accept --config ./supergraph.yaml > prod-schema.graphql",
     "start": "router --dev --supergraph prod-schema.graphql"
   },
@@ -14,5 +15,8 @@
   "license": "ISC",
   "devDependencies": {
     "@apollo/rover": "^0.9.1"
+  },
+  "dependencies": {
+    "concurrently": "^7.5.0"
   }
 }

@@ -37,10 +37,13 @@ type Query {
 
   """The details of a specific location"""
   location(id: ID!): Location
+  _entities(representations: [_Any!]!): [_Entity]!
   _service: _Service!
 }
 
-type Location {
+type Location
+  @key(fields: "id")
+{
   id: ID!
 
   """The name of the location"""
@@ -74,3 +77,5 @@ scalar _Any
 type _Service {
   sdl: String
 }
+
+union _Entity = Location
