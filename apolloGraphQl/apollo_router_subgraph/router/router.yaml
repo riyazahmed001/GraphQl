@@ -1,0 +1,18 @@
+sandbox:
+  enabled: true
+supergraph:
+  # need for sandbox
+  introspection: true
+  # The socket address and port to listen on
+  listen: 127.0.0.1:4003
+  # The path for GraphQL execution
+  # (Defaults to /)
+  path: /v1
+include_subgraph_errors:
+  all: true
+plugins:
+  experimental.expose_query_plan: true
+homepage:
+  # should be false to enable sandbox
+  enabled: false
+  

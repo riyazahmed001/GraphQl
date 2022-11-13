@@ -9,7 +9,7 @@
     "subgraph:location": "rover subgraph introspect http://localhost:4001 > location.graphql",
     "subgraph:reviews": "rover subgraph introspect http://localhost:4002 > reviews.graphql",
     "supergraph": "rover supergraph compose --elv2-license accept --config ./supergraph.yaml > prod-schema.graphql",
-    "start": "router --dev --supergraph prod-schema.graphql"
+    "start": "router --config router.yaml --supergraph prod-schema.graphql" 
   },
   "author": "",
   "license": "ISC",
