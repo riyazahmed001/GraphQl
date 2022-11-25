@@ -22,7 +22,7 @@ type Location @key(fields: "id") {
  "The calculated overall rating based on all reviews"
   overallRating: Float
   "All submitted reviews about this location"
-  reviewsForLocation: [Review]!
+  reviewsForLocation(limit: Int): [Review]!
 }
 
 type Mutation {

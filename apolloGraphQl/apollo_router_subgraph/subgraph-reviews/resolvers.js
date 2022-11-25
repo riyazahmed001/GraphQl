@@ -14,12 +14,18 @@ const resolvers = {
     overallRating: ({id}, _, {dataSources}) => {
       return dataSources.reviewsAPI.getOverallRatingForLocation(id);
     },
-    reviewsForLocation: ({id}, _, {dataSources}) => {
+    reviewsForLocation: ({id}, args, {dataSources}) => {
+      console.log(args);
+      console.log(args.limit);
+      if(args.limit !== null) {
+        return dataSources.reviewsAPI.getReviewsForLocationLimitBySize(id,args.limit);
+      }
       return dataSources.reviewsAPI.getReviewsForLocation(id);
      }
   },
   Review: {
-    location: (parent) => {
+    location: (parent,args) => {
+      console.log(args);
       return {id: parent.locationId};
     }
   }

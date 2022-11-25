@@ -9,6 +9,12 @@ class ReviewsAPI {
     return reviews.filter(r => r.locationId === id);
   }
 
+  getReviewsForLocationLimitBySize(id,size) {
+    let reviewsForId = this.getReviewsForLocation(id);
+    console.log(reviewsForId.length);
+    return reviewsForId.slice(0,Math.min(size, reviewsForId.length));
+  }
+
   getLatestReviews() {
     return reviews.slice(Math.max(reviews.length - 3, 0));
   }
