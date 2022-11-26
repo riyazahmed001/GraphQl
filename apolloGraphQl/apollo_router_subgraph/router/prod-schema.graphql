@@ -56,7 +56,7 @@ type Location
   overallRating: Float @join__field(graph: REVIEW)
 
   """All submitted reviews about this location"""
-  reviewsForLocation: [Review]! @join__field(graph: REVIEW)
+  reviewsForLocation(limit: Int): [Review]! @join__field(graph: REVIEW)
 }
 
 input LocationReviewInput

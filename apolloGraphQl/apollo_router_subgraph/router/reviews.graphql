@@ -59,7 +59,7 @@ type Location
   overallRating: Float
 
   """All submitted reviews about this location"""
-  reviewsForLocation: [Review]!
+  reviewsForLocation(limit: Int): [Review]!
 }
 
 type Mutation {
