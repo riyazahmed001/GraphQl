@@ -15,4 +15,13 @@ plugins:
 homepage:
   # should be false to enable sandbox
   enabled: false
-  
+# This is a top-level key. It MUST define at least one of the two
+# sub-keys shown, even if you don't modify its default value.
+rhai:
+  # Specify a different Rhai script directory path with this key.
+  # The path can be relative or absol ute.
+  scripts: "./rhai"
+
+  # Specify a different name for your "main" Rhai file with this key.
+  # The router looks for this filename in your Rhai script directory.
+  main: "start.rhai"
