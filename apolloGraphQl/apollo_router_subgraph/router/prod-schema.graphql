@@ -90,6 +90,9 @@ type Query
   """The details of a specific location"""
   location(id: ID!): Location @join__field(graph: LOCATION)
 
+  """Get all review available"""
+  allReviews: [Review!]! @join__field(graph: REVIEW)
+
   """The three latest reviews submitted for FlyBy's locations"""
   latestReviews: [Review!]! @join__field(graph: REVIEW)
 }

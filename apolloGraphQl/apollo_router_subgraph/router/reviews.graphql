@@ -31,6 +31,9 @@ directive @federation__override(from: String!) on FIELD_DEFINITION
 directive @federation__composeDirective(name: String) repeatable on SCHEMA
 
 type Query {
+  """Get all review available"""
+  allReviews: [Review!]!
+
   """The three latest reviews submitted for FlyBy's locations"""
   latestReviews: [Review!]!
   _entities(representations: [_Any!]!): [_Entity]!

@@ -3,6 +3,8 @@ extend schema
         import: ["@key"])
         
 type Query {
+  "Get all review available"
+  allReviews: [Review!]!
   "The three latest reviews submitted for FlyBy's locations"
   latestReviews: [Review!]!
 }

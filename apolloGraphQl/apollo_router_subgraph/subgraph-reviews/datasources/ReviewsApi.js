@@ -5,6 +5,10 @@ class ReviewsAPI {
     return reviews.find(r => r.id === id);
   }
 
+  getAllReview() {
+    return reviews;
+  }
+  
   getReviewsForLocation(id) {
     return reviews.filter(r => r.locationId === id);
   }

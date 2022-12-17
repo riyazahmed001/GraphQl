@@ -2,7 +2,10 @@ const resolvers = {
   Query: {
     latestReviews: (_, __, {dataSources}) => {
       return dataSources.reviewsAPI.getLatestReviews();
-    }
+    },
+    allReviews: (_, __, {dataSources}) => {
+      return dataSources.reviewsAPI.getAllReview();
+    },
   },
   Mutation: {
     submitReview: (_, {locationReview}, {dataSources}) => {
@@ -15,9 +18,9 @@ const resolvers = {
       return dataSources.reviewsAPI.getOverallRatingForLocation(id);
     },
     reviewsForLocation: ({id}, args, {dataSources}) => {
-      console.log(args);
-      console.log(args.limit);
       if(args.limit !== null) {
+        console.log(args);
+        console.log(args.limit);
         return dataSources.reviewsAPI.getReviewsForLocationLimitBySize(id,args.limit);
       }
       return dataSources.reviewsAPI.getReviewsForLocation(id);
