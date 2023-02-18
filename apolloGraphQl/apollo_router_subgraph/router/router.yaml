@@ -25,3 +25,5 @@ rhai:
   # Specify a different name for your "main" Rhai file with this key.
   # The router looks for this filename in your Rhai script directory.
   main: "start.rhai"
+cors:
+  allow_credentials: true
