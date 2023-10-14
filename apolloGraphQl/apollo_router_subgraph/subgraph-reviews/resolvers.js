@@ -14,21 +14,26 @@ const resolvers = {
     }
   },
   Location: {
-    overallRating: ({id}, _, {dataSources}) => {
-      return dataSources.reviewsAPI.getOverallRatingForLocation(id);
+    overallRating: async (/*locations*/{id}, _, {dataSources, loaders}) => {
+        // return dataSources.reviewsAPI.getOverallRatingForLocation(id);
+       const result =  await loaders.locationLoader.load(id);
+       return result;
+      //return loaders.locationLoader.loadMany(locations.map((location) => location.locationId));
     },
-    reviewsForLocation: ({id}, args, {dataSources}) => {
-      if(args.limit !== null) {
+    reviewsForLocation: ({id}, args, {dataSources, loaders}) => {
+      if(!!args.limit) {
         console.log(args);
         console.log(args.limit);
         return dataSources.reviewsAPI.getReviewsForLocationLimitBySize(id,args.limit);
       }
-      return dataSources.reviewsAPI.getReviewsForLocation(id);
+      const result = loaders.reviewLoaderForLocationL.load(id);
+      return result
+      // return dataSources.reviewsAPI.getReviewsForLocation(id);
      }
   },
   Review: {
     location: (parent,args) => {
-      console.log(args);
+      // console.log(args);
       return {id: parent.locationId};
     }
   }

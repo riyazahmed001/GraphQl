@@ -10,6 +10,7 @@ class ReviewsAPI {
   }
   
   getReviewsForLocation(id) {
+    console.log("review " + id)
     return reviews.filter(r => r.locationId === id);
   }
 
@@ -24,6 +25,7 @@ class ReviewsAPI {
   }
 
   getOverallRatingForLocation(id) {
+    console.log("id", id);
     const allRatings = reviews
       .filter(r => r.locationId === id)
       .map(r => r.rating);
@@ -32,6 +34,27 @@ class ReviewsAPI {
     return average;
   }
 
+  getOverAllRatingForLocationDataLoaders(ids) {
+    const allRatings = reviews
+                          .filter((review) => ids.includes(review.locationId))
+                          .filter((obj, index) => {
+                            return index === reviews.findIndex(o => obj.locationId === o.locationId);
+                          });
+    // Create an object to map "id" to the sum of "ratings"
+    const result = allRatings.reduce((accumulator, currentValue) => {
+      const locationId = currentValue.locationId;
+
+      if (accumulator[locationId] === undefined) {
+        accumulator[locationId] = this.getOverallRatingForLocation(locationId);
+      } else {
+        accumulator[locationId] += this.getOverallRatingForLocation(locationId);
+      }
+
+      return accumulator;
+    }, {});
+
+    return result;
+  }
   submitReviewForLocation(review) {
     const newReview = {id: `rev-${reviews.length + 1}`, ...review};
     reviews = [...reviews, newReview];

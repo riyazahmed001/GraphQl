@@ -8,8 +8,10 @@ const resolvers = {
     },
   },
   Location: {
-    __resolveReference: ({id}, {dataSources}) => {
-      return dataSources.locationsAPI.getLocation(id);
+    __resolveReference: async ({id}, {dataSources, loaders}) => {
+      const result =  await loaders.locationLoader.load(id);
+      return result;
+      // return dataSources.locationsAPI.getLocation(id);
     }
   }
 };

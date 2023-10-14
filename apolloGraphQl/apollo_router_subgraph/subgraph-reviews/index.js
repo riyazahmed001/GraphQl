@@ -7,6 +7,7 @@ const gql = require('graphql-tag');
 const typeDefs = gql(readFileSync('./reviews.graphql', { encoding: 'utf-8' }));
 const resolvers = require('./resolvers');
 const ReviewsAPI = require('./datasources/ReviewsApi');
+const loaders = require('./dataLoaders/locationDataLoader');
 
 async function startApolloServer() {
   const server = new ApolloServer({
@@ -22,6 +23,10 @@ async function startApolloServer() {
         return {
           dataSources: {
             reviewsAPI: new ReviewsAPI(),
+          },
+          loaders: { 
+            locationLoader: loaders.createUsersLoader(new ReviewsAPI()),
+            reviewLoaderForLocationL: loaders.getReviewForLocationLoader(new ReviewsAPI())
           },
         };
       },

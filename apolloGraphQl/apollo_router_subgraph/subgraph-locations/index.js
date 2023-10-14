@@ -7,6 +7,7 @@ const gql = require('graphql-tag');
 const typeDefs = gql(readFileSync('./locations.graphql', { encoding: 'utf-8' }));
 const resolvers = require('./resolvers');
 const LocationsAPI = require('./datasources/LocationsApi');
+const loaders = require('./dataLoaders/locationDataLoader');
 
 async function startApolloServer() {
   const server = new ApolloServer({
@@ -22,6 +23,9 @@ async function startApolloServer() {
         return {
           dataSources: {
             locationsAPI: new LocationsAPI(),
+          },
+          loaders: { 
+            locationLoader: loaders.getLocationForLocationId(new LocationsAPI()),
           },
         };
       },
