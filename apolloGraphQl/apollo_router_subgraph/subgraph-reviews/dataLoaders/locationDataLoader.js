@@ -10,7 +10,8 @@ class Loader {
 
     getReviewForLocationLoader(reviewApi) {
         return new DataLoader(async (locationIds) => {
-            const result = locationIds.map((locationId) => reviewApi.getReviewsForLocation(locationId));
+            const reviewsForAllLocation = reviewApi.getAllReview();
+            const result = locationIds.map((locationId) => reviewsForAllLocation.filter(review=> review.locationId == locationId));
             return result;
         });
     }

@@ -6,6 +6,7 @@ class ReviewsAPI {
   }
 
   getAllReview() {
+    console.log("get All review")
     return reviews;
   }
   
